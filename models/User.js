@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt-nodejs');
-var passportEmail = require('passport-email');
+const passportLocalMongoose = require('passport-local-mongoose');
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
@@ -29,7 +29,7 @@ const userSchema = new Schema({
   }
 });
 
-userSchema.plugin(passportEmail);
+userSchema.plugin(passportLocalMongoose, { usernameField : 'username' });
 
 // methods ======================
 // generating a hash

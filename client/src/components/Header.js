@@ -28,6 +28,9 @@ class Header extends Component {
               <Link to="/dashboard">Dashboard</Link>
             </li>
             <li>
+              <a href="/settings">Settings</a>
+            </li>
+            <li>
               <a href="/api/logout">Logout</a>
             </li>
           </nav>

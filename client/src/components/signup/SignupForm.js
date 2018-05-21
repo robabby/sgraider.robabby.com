@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { reduxForm, Field } from 'redux-form';
 import signupFields from './config/signupFields.js';
 import * as actions from '../../actions';
@@ -42,11 +43,12 @@ class SignupForm extends Component {
 
 
   handleFormSubmit(values) {
+    let { history } = this.props;
     console.log(values);
     this.setState({
       submitted: true
     });
-    this.props.signupUser(values);
+    this.props.signupUser(values, history);
   };
 
   render() {
@@ -84,7 +86,7 @@ function mapStateToProps(state) {
 SignupForm = connect(
   mapStateToProps,
   actions
-)(SignupForm);
+)(withRouter(SignupForm));
 
 function validate(values) {
   const errors = {};

@@ -4,10 +4,11 @@ import { connect } from 'react-redux';
 import * as actions from './actions';
 
 import Header from './components/Header';
-import Landing from './components/Landing';
-import Dashboard from './components/Dashboard';
 import Login from './components/Login';
 import Signup from './components/Signup';
+import Landing from './components/Landing';
+import Dashboard from './components/Dashboard';
+import Settings from './components/Settings';
 import './App.css';
 
 class App extends Component {
@@ -27,6 +28,7 @@ class App extends Component {
             <Route exact path="/dashboard" component={Dashboard} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={Signup} />
+            <Route exact path="/settings" component={Settings} />
           </div>
         </BrowserRouter>
       </div>
