@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { FETCH_USER, REGISTER_USER } from './types';
+import { FETCH_USER, SIGNUP_USER } from './types';
 
 export const fetchUser = () => async (dispatch) => {
   // if an action creator returns a function instead of an action
@@ -14,5 +14,5 @@ export const signupUser = (values, history) => async dispatch => {
   const res = await axios.post('/api/register', values);
   //
   // history.push('/stacks');
-  dispatch({ type: REGISTER_USER, payload: res.data });
+  dispatch({ type: SIGNUP_USER, payload: res.data });
 }
