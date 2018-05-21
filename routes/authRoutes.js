@@ -11,12 +11,6 @@ module.exports = app => {
       if (!user) {
         return res.send({ success : false, message : 'authentication failed' });
       }
-      // ***********************************************************************
-      // "Note that when using a custom callback, it becomes the application's
-      // responsibility to establish a session (by calling req.login()) and send
-      // a response."
-      // Source: http://passportjs.org/docs
-      // ***********************************************************************
       req.login(user, loginErr => {
         console.log(user);
         if (loginErr) {
@@ -26,6 +20,26 @@ module.exports = app => {
       });
     })(req, res, next);
   });
+
+  // process the login form
+    app.post('/api/login', (req, res, next) => {
+      passport.authenticate('local-login', (err, user, info) => {
+        if (err) {
+          return next(err); // will generate a 500 error
+        }
+        // Generate a JSON response reflecting authentication status
+        if (!user) {
+          return res.send({ success : false, message : 'Login failed' });
+        }
+        req.login(user, loginErr => {
+          console.log(user);
+          if (loginErr) {
+            return next(loginErr);
+          }
+          return res.send(user);
+        });
+      })(req, res, next);
+    });
 
   app.get(
     '/auth/google',
