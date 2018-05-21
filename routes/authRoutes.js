@@ -48,11 +48,22 @@ module.exports = app => {
     })
   );
 
+  // send to google to do the authentication
+  app.get('/connect/google', passport.authorize('google', { scope : ['profile', 'email'] }));
+
+  // the callback after google has authorized the user
+  app.get('/connect/google/callback',
+    passport.authorize('google'),
+    (req, res) => {
+      res.redirect('/dashboard');
+    }
+  );
+
   app.get(
     '/auth/google/callback',
     passport.authenticate('google'),
     (req, res) => {
-      res.redirect('/stacks');
+      res.redirect('/dashboard');
     }
   );
 

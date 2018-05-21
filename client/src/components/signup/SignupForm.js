@@ -10,6 +10,8 @@ import SignupField from './SignupField';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
+import BtnGoogleSignin from '../../assets/images/btn_google_signin.png';
+
 class SignupForm extends Component {
   state = {
     submitted: false,
@@ -65,9 +67,11 @@ class SignupForm extends Component {
             </Button>
           </div>
         </form>
-        <p>
-          {this.state.submitted.toString()}
-        </p>
+        <div>
+          <a href="/auth/google">
+            <img src={BtnGoogleSignin} />
+          </a>
+        </div>
       </div>
     )
   }
