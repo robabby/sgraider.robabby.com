@@ -6,7 +6,8 @@ import * as actions from './actions';
 import Header from './components/Header';
 import Landing from './components/Landing';
 import Dashboard from './components/Dashboard';
-import LoginForm from './components/LoginForm';
+import Login from './components/Login';
+import Signup from './components/Signup';
 import './App.css';
 
 class App extends Component {
@@ -19,7 +20,8 @@ class App extends Component {
             <Header />
             <Route exact path="/" component={Landing} />
             <Route exact path="/dashboard" component={Dashboard} />
-            <Route exact path="/login" component={LoginForm} />
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/signup" component={Signup} />
           </div>
         </BrowserRouter>
       </div>
@@ -27,4 +29,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default connect(null, actions)(App);

@@ -15,6 +15,9 @@ export default (props) => {
         <li>
           <Link to="/dashboard">Dashboard</Link>
         </li>
+        <li>
+          <Link to="/signup">Signup</Link>
+        </li>
       </nav>
     </header>
   )
