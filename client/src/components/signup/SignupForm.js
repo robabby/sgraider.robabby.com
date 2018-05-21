@@ -69,11 +69,11 @@ class SignupForm extends Component {
             </Button>
           </div>
         </form>
-        <div>
+        {/* <div>
           <a href="/auth/google">
             <img src={BtnGoogleSignin} />
           </a>
-        </div>
+        </div> */}
       </div>
     )
   }
