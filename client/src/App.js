@@ -11,7 +11,12 @@ import Signup from './components/Signup';
 import './App.css';
 
 class App extends Component {
+  componentDidMount() {
+    this.props.fetchUser();
+  }
+
   render() {
+    console.log(this.props);
     return (
       <div className="App">
         <BrowserRouter>

@@ -9,9 +9,9 @@ export const fetchUser = () => async (dispatch) => {
   dispatch({ type: FETCH_USER, payload: res.data });
 };
 
-export const signupUser = (values, history) => async dispatch => {
-  console.log('/signupUser/');
-  const res = await axios.post('/api/register', values);
+export const signupUser = (values) => async (dispatch) => {
+  console.log('/signupUser/', values);
+  const res = await axios.post('/api/signup', values);
   //
   // history.push('/stacks');
   dispatch({ type: SIGNUP_USER, payload: res.data });

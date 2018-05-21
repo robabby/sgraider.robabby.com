@@ -5,7 +5,7 @@ export default function(state = null, action) {
     case FETCH_USER:
       return action.payload || false;
     case SIGNUP_USER:
-      return action.payload || false;
+      return action.payload;
     default:
       return state;
   }

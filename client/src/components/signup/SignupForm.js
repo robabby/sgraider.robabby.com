@@ -1,11 +1,18 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import { reduxForm, Field, FieldArray } from 'redux-form';
+import { connect } from 'react-redux';
+import { reduxForm, Field } from 'redux-form';
+import signupFields from './config/signupFields.js';
+import * as actions from '../../actions';
+
+import SignupField from './SignupField';
+
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
 class LoginForm extends Component {
   state = {
+    submitted: false,
     username: '',
     email: '',
     name: '',
@@ -16,52 +23,64 @@ class LoginForm extends Component {
     });
   };
 
+  renderSignupFields() {
+    return _.map(signupFields, ({ type, label, name, testVal }) => {
+      return (
+        <Field
+          key={name}
+          component={SignupField}
+          type={type}
+          label={label}
+          name={name}
+          testVal={testVal}
+        />
+      );
+    });
+  }
+
+
+  handleFormSubmit(values) {
+    console.log(values);
+    this.setState({
+      submitted: true
+    });
+    this.props.signupUser(values);
+  };
+
   render() {
     return (
       <div>
         <form
-          onSubmit={this.props.handleSubmit(this.props.onFormSubmit)}
+          onSubmit={this.props.handleSubmit(values => this.handleFormSubmit(values))}
         >
+          {this.renderSignupFields()}
           <div>
-            <TextField
-              id="email"
-              label="Email"
-              className={'email-input'}
-              value={this.state.email}
-              onChange={this.handleChange('email')}
-              margin="normal"
-            />
-          </div>
-          <div>
-            <TextField
-              id="username"
-              label="Username"
-              className={'username-input'}
-              value={this.state.username}
-              onChange={this.handleChange('username')}
-              margin="normal"
-            />
-          </div>
-          <div>
-            <TextField
-              id="name"
-              label="Name"
-              className={'name-input'}
-              value={this.state.name}
-              onChange={this.handleChange('name')}
-              margin="normal"
-            />
-          </div>
-          <div>
-            <Button type="submit" variant="raised" color="primary" className={'login-submit'}>
+            <Button
+              type="submit"
+              variant="raised"
+              color="primary"
+              className={'login-submit'}
+            >
               Submit
             </Button>
           </div>
         </form>
+        <p>
+          {this.state.submitted.toString()}
+        </p>
       </div>
     )
   }
 }
+
+function mapStateToProps(state) {
+  return state;
+}
+
+LoginForm = connect(
+  mapStateToProps,
+  actions
+)(LoginForm);
 
 function validate(values) {
   const errors = {};

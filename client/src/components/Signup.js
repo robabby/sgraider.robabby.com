@@ -1,13 +1,14 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import { reduxForm, Field, FieldArray } from 'redux-form';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { reduxForm } from 'redux-form';
+import * as actions from '../actions';
 import SignupForm from './signup/SignupForm';
 
 import { signupUser } from '../actions';
 
-class LoginForm extends Component {
+class Signup extends Component {
   state = {
     submitted: false,
     username: '',
@@ -15,37 +16,19 @@ class LoginForm extends Component {
     firstName: '',
     lastName: ''
   }
-  handleFormSubmit(prop) {
-    this.setState({
-      submitted: true
-    });
-
-    signupUser();
-  };
 
   render() {
     // console.log(this.props);
     return (
       <div>
-        <SignupForm
-          onFormSubmit={() => this.handleFormSubmit()}
-        />
-        <p>
-          {this.state.submitted.toString()}
-        </p>
+        <SignupForm />
       </div>
     )
   }
 }
 
-function validate(values) {
-  const errors = {};
-
-  return errors;
+function mapStateToProps(state) {
+  return {};
 }
 
-export default reduxForm({
-  form: 'signupForm', // required property
-  validate,
-  destroyOnUnmount: false
-})(LoginForm);
+export default connect(mapStateToProps, actions)(Signup);

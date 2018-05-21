@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 const keys = require('../config/keys');
 const flash = require('connect-flash');
 
-const User = mongoose.model('users');
+const User = require('../models/User');
 
 passport.serializeUser((user, done) => {
   done(null, user.id);
@@ -29,7 +29,7 @@ passport.deserializeUser((id, done) => {
 //   async (accessToken, refreshToken, profile, done) => {
 //     // once you hit this segment of the process, the token is cached
 //     // and google wont need to ask for permission again until expiration
-//     const existingUser = await User.findOne({ googleId: profile.id })
+//     const existingUser = await User.findOne({ googleId: profile.id });
 //     if (existingUser) {
 //       // we already have a record with the given profileId
 //       return done(null, existingUser)
@@ -46,39 +46,40 @@ passport.deserializeUser((id, done) => {
 // =========================================================================
 // we are using named strategies since we have one for login and one for signup
 // by default, if there was no name, it would just be called 'local'
-passport.use('local-signup', new LocalStrategy({
+passport.use(
+  'local-signup',
+  new LocalStrategy({
     // by default, local strategy uses username and password, we will override with email
-    usernameField : 'email',
-    passwordField : 'password',
-    passReqToCallback : true // allows us to pass back the entire request to the callback
+    passReqToCallback: true // allows us to pass back the entire request to the callback
   },
-  function(req, email, password, done) {
+  (req, username, password, done) => {
+    console.log(username, password, req.body);
     // asynchronous
     // User.findOne wont fire unless data is sent back
-    process.nextTick(function() {
-    // find a user whose email is the same as the forms email
-    // we are checking to see if the user trying to login already exists
-    User.findOne({ 'local.email' :  email }, async (err, user) => {
-      // if there are any errors, return the error
-      if (err)
-        return done(err);
-      // check to see if theres already a user with that email
-      if (user) {
-        return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
-      } else {
-        // if there is no user with that email
-        // create the user
-        let newUser = new User();
-        // set the user's local credentials
-        newUser.local.email    = email;
-        newUser.local.password = newUser.generateHash(password);
-        // save the user
-        newUser.save(function(err) {
-          if (err)
-              throw err;
-          return done(null, newUser);
-        });
+    process.nextTick(async () => {
+      console.log('process.nextTick');
+      // find a user whose email is the same as the forms email
+      // we are checking to see if the user trying to login already exists
+      const existingUser = await User.findOne({ 'username' :  username });
+
+      if (existingUser) {
+        console.log('User exists');
+        // we already have a record with the given profileId
+        return done(null, existingUser)
       }
+
+      // make a new record
+      const newUser = new User();
+      newUser.username = username;
+      newUser.local.email = req.body.email;
+      newUser.local.password = newUser.generateHash(password);
+
+
+      await newUser.save();
+
+      console.log('user saved', newUser);
+
+      done(null, newUser);
     });
-  });
-}));
+  })
+);
