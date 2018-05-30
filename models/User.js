@@ -34,6 +34,11 @@ const userSchema = new Schema({
     email: String,
     accessToken: String,
     refreshToken: String
+  },
+  bungie: {
+    membershipId: String,
+    accessToken: String,
+    refreshToken: String
   }
 });
 

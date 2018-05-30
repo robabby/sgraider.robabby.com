@@ -80,6 +80,14 @@ module.exports = app => {
     }
   );
 
+  app.get('/auth/connect/bungie', passport.authorize('bungie-oauth2'));
+  app.get('/auth/connect/bungie/callback',
+    passport.authorize('bungie-oauth2', { failureRedirect: '/settings' }),
+    (req, res) => {
+      // Successful authentication, redirect home.
+      res.redirect('/settings');
+    }
+  );
 
   // Discord Signup
   app.get('/auth/discord', passport.authenticate('discord'));
@@ -94,6 +102,6 @@ module.exports = app => {
   app.get('/auth/connect/discord/callback',
     passport.authorize('discord'),
     (req, res) => {
-      res.redirect('/dashboard');
+      res.redirect('/settings');
   });
 };

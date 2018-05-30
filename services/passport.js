@@ -3,6 +3,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const DiscordStrategy = require('passport-discord').Strategy;
+const BungieOAuth2Strategy = require('passport-bungie-oauth2').Strategy;
 const mongoose = require('mongoose');
 const keys = require('../config/keys');
 const flash = require('connect-flash');
@@ -99,7 +100,7 @@ function(req, email, password, done) { // callback with email and password from 
 }));
 
 // =========================================================================
-// DISCORD SIGNUP ==========================================================
+// DISCORD =================================================================
 // =========================================================================
 
 passport.use(new DiscordStrategy({
@@ -131,6 +132,41 @@ passport.use(new DiscordStrategy({
     // No user found
     return done(null, false, { loginMessage: 'User not found.' });
 }));
+
+// =========================================================================
+// BUNGIE ==================================================================
+// =========================================================================
+
+passport.use(new BungieOAuth2Strategy({
+    clientID: keys.bungieClientId,
+    callbackURL: `${keys.redirectDomain}auth/connect/bungie/callback`,
+    passReqToCallback: true
+  },
+  async (req, accessToken, refreshToken, profile, done) => {
+    console.log('/req.user/', req.user);
+    console.log('/bungie.profile/', profile);
+
+    const user = await User.findOne({ 'username' :  req.user.username });
+
+    if (user) {
+      user.bungie.membershipId = profile.membershipId;
+      user.bungie.accessToken = profile.accessToken;
+      user.bungie.refreshToken = refreshToken;
+
+      await user.save();
+      console.log('/user/ saved', user);
+
+      return done(null, user);
+    }
+
+    // No user found
+    return done(null, false, { loginMessage: 'User not found.' });
+
+    // User.findOrCreate({ bungie: { membershipId: profile.membershipId } }, function (err, user) {
+    //   return done(err, user);
+    // });
+  }
+));
 
 // =========================================================================
 // GOOGLE SIGNUP ===========================================================

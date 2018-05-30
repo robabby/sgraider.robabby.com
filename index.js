@@ -1,5 +1,7 @@
+const keys = require('./config/keys');
 if (process.env.NODE_ENV === 'production') {
   require('dotenv').config();
+  console.log('#### KEYS ####', keys);
 }
 const express = require('express');
 const mongoose = require('mongoose');
@@ -7,12 +9,10 @@ const cookieSession = require('cookie-session');
 const passport = require('passport');
 const bodyParser = require('body-parser');
 const flash = require('connect-flash');
-const keys = require('./config/keys');
 require('./models/User');
 require('./services/passport');
 require('./services/discord');
 
-console.log('#### KEYS ####', keys);
 
 mongoose.connect(keys.mongoURI, (err, db) => {
   if (err) {

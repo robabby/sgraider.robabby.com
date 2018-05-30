@@ -12,6 +12,14 @@ export default (props) => {
           Connect with Discord
         </a>
       </div>
+      <div style={{marginTop: 15}}>
+        <a
+          href="/auth/connect/bungie"
+          className={'login-submit'}
+        >
+          Connect with Bungie
+        </a>
+      </div>
     </div>
   )
 }
