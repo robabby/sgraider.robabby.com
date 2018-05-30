@@ -30,7 +30,7 @@
       "ref"  : "origin/master",
       "repo" : "https://github.com/robabby/spaceghostalliance.com.git",
       "path" : "/var/www/spaceghostalliance.com",
-      "post-deploy" : "npm install; npm install --prefix client; cp /var/www/spaceghostalliance.com/.env .env; pm2 startOrRestart ecosystem.json --env production"
+      "post-deploy" : "npm install; npm install --prefix client; cp ./.env .env; pm2 startOrRestart ecosystem.json --env production"
     },
   }
 }
