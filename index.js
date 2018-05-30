@@ -6,8 +6,8 @@ const bodyParser = require('body-parser');
 const flash = require('connect-flash');
 const keys = require('./config/keys');
 require('./models/User');
-// require('./models/Stack');
 require('./services/passport');
+require('./services/discord');
 
 mongoose.connect(keys.mongoURI, (err, db) => {
   if (err) {
