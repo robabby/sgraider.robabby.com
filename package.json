@@ -5,12 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "pm2 start index.js",
     "server": "nodemon index.js",
     "client": "npm run start --prefix client",
     "client-build": "npm run build --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "prod": "NODE_ENV=production \"npm run start\""
+    "prod": "NODE_ENV=production pm2 start index.js"
   },
   "author": "Rob Abby",
   "license": "ISC",
