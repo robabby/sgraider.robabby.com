@@ -10,7 +10,7 @@
     "client:serve": "npm run start --prefix client",
     "client:build": "npm run build --prefix client",
     "dev": "concurrently \"npm run server:dev\" \"npm run client:serve\"",
-    "prod": "concurrently \"npm run server:prod\" \"npm run client:build\"",
+    "prod": "concurrently \"npm run server:prod\" \"npm run client:build\""
   },
   "author": "Rob Abby",
   "license": "ISC",
