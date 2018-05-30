@@ -19,6 +19,7 @@ class LoginForm extends Component {
     username: '',
     email: '',
     name: '',
+    loginFailed: null
   }
   handleChange = prop => event => {
     this.setState({
@@ -41,8 +42,19 @@ class LoginForm extends Component {
     });
   }
 
+  renderErrors() {
+    // let { success } = this.props.auth;
+    // if (!success) {
+    //   return (
+    //     <div>
+    //       {this.props.auth.message}
+    //     </div>
+    //   )
+    // }
+  }
 
-  handleFormSubmit(values) {
+  async handleFormSubmit(values) {
+    console.log(this.props.auth);
     let { history } = this.props;
     this.setState({
       submitted: true
@@ -67,6 +79,7 @@ class LoginForm extends Component {
               Submit
             </Button>
           </div>
+          {this.renderErrors()}
         </form>
         {/* <div>
           <a href="/auth/google">

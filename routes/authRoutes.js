@@ -29,7 +29,7 @@ module.exports = app => {
         }
         // Generate a JSON response reflecting authentication status
         if (!user) {
-          return res.send({ success : false, message : 'Login failed' });
+          return res.send(false);
         }
         req.login(user, loginErr => {
           console.log(user);

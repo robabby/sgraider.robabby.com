@@ -17,6 +17,8 @@ export const signupUser = (values, history) => async (dispatch) => {
 
 export const loginUser = (values, history) => async (dispatch) => {
   const res = await axios.post('/api/login', values);
-  history.push('/dashboard');
+  if (res.data) {
+    history.push('/dashboard');
+  }
   dispatch({ type: LOGIN_USER, payload: res.data });
 }
