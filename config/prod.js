@@ -7,5 +7,8 @@ module.exports = {
   discordBotToken: process.env.SPACEGHOST_DISCORD_BOT_TOKEN,
   discordClientId: process.env.SPACEGHOST_DISCORD_CLIENT_ID,
   discordClientSecret: process.env.SPACEGHOST_DISCORD_CLIENT_SECRET,
-  giphyApiKey: process.env.SPACEGHOST_GIPHY_API_KEY
+  giphyApiKey: process.env.SPACEGHOST_GIPHY_API_KEY,
+  bungieApiKey: process.env.SPACEGHOST_BUNGIE_API_KEY,
+  bungieOAuthUrl: process.env.SPACEGHOST_BUNGIE_OAUTH_URL,
+  bungieClientId: process.env.SPACEGHOST_BUNGIE_CLIENT_ID
 }
