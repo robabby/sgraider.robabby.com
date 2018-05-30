@@ -3,7 +3,6 @@
     {
       "name": "SpaceGhost",
       "script": "./index.js",
-      "watch": true,
       "env": {
         "COMMON_VARIABLE": true
       },
@@ -30,7 +29,7 @@
       "ref"  : "origin/master",
       "repo" : "https://github.com/robabby/spaceghostalliance.com.git",
       "path" : "/var/www/spaceghostalliance.com",
-      "post-deploy" : "source ~/.env && npm install && npm install --prefix client && pm2 startOrRestart ecosystem.json --env production --update-env"
+      "post-deploy" : "source ~/.env && npm install && npm install --prefix client && pm2 reload ecosystem.json --env production --update-env"
     },
   }
 }
