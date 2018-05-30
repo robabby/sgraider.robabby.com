@@ -1,6 +1,3 @@
-if (process.env.NODE_ENV === 'production') {
-  require('dotenv').config();
-}
 const express = require('express');
 const mongoose = require('mongoose');
 const cookieSession = require('cookie-session');
@@ -11,6 +8,8 @@ const keys = require('./config/keys');
 require('./models/User');
 require('./services/passport');
 require('./services/discord');
+
+console.log('#### KEYS ####', keys);
 
 mongoose.connect(keys.mongoURI, (err, db) => {
   if (err) {
