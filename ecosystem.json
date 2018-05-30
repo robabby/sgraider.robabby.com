@@ -3,6 +3,7 @@
     {
       "name": "SpaceGhost",
       "script": "index.js",
+      "watch": true,
       "env": {
         "COMMON_VARIABLE": true
       },
