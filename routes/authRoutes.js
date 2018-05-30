@@ -1,4 +1,5 @@
 const passport = require('passport');
+const keys = require('../config/keys');
 
 module.exports = app => {
   // process the signup form
@@ -22,24 +23,36 @@ module.exports = app => {
   });
 
   // process the login form
-    app.post('/api/login', (req, res, next) => {
-      passport.authenticate('local-login', (err, user, info) => {
-        if (err) {
-          return next(err); // will generate a 500 error
+  app.post('/api/login', (req, res, next) => {
+    passport.authenticate('local-login', (err, user, info) => {
+      if (err) {
+        return next(err); // will generate a 500 error
+      }
+      // Generate a JSON response reflecting authentication status
+      if (!user) {
+        return res.send(false);
+      }
+      req.login(user, loginErr => {
+        console.log(user);
+        if (loginErr) {
+          return next(loginErr);
         }
-        // Generate a JSON response reflecting authentication status
-        if (!user) {
-          return res.send(false);
-        }
-        req.login(user, loginErr => {
-          console.log(user);
-          if (loginErr) {
-            return next(loginErr);
-          }
-          return res.send(user);
-        });
-      })(req, res, next);
-    });
+        return res.send(user);
+      });
+    })(req, res, next);
+  });
+
+  //  Process logout
+  app.get('/api/logout', (req, res) => {
+    req.logout();
+    res.redirect('/');
+  });
+
+  // Get the current user
+  app.get('/api/current_user', (req, res) => {
+    console.log('/api/current_user', req.user);
+    res.send(req.user);
+  });
 
   app.get(
     '/auth/google',
@@ -67,13 +80,20 @@ module.exports = app => {
     }
   );
 
-  app.get('/api/logout', (req, res) => {
-    req.logout();
-    res.redirect('/');
+
+  // Discord Signup
+  app.get('/auth/discord', passport.authenticate('discord'));
+  app.get('/auth/discord/callback',
+    passport.authenticate('discord'),
+    (req, res) => {
+      res.redirect('/dashboard');
   });
 
-  app.get('/api/current_user', (req, res) => {
-    console.log('/api/current_user');
-    res.send(req.user);
+  // Connect discord
+  app.get('/auth/connect/discord', passport.authorize('discord'));
+  app.get('/auth/connect/discord/callback',
+    passport.authorize('discord'),
+    (req, res) => {
+      res.redirect('/dashboard');
   });
 };

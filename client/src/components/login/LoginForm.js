@@ -86,6 +86,14 @@ class LoginForm extends Component {
             <img src={BtnGoogleSignin} />
           </a>
         </div> */}
+        <div style={{marginTop: 15}}>
+          <a
+            href="/auth/discord"
+            className={'login-submit'}
+          >
+            Signup with Discord
+          </a>
+        </div>
       </div>
     )
   }

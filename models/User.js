@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt-nodejs');
 const passportLocalMongoose = require('passport-local-mongoose');
 const mongoose = require('mongoose');
+const findOrCreate = require('mongoose-findorcreate');
 const { Schema } = mongoose;
 
 const userSchema = new Schema({
@@ -26,10 +27,18 @@ const userSchema = new Schema({
     token: String,
     email: String,
     name: String
+  },
+  discord: {
+    id: String,
+    username: String,
+    email: String,
+    accessToken: String,
+    refreshToken: String
   }
 });
 
 userSchema.plugin(passportLocalMongoose, { usernameField : 'username' });
+userSchema.plugin(findOrCreate);
 
 // methods ======================
 // generating a hash

@@ -6,6 +6,12 @@
     "/auth/google": {
       "target": "http://localhost:5000"
     },
+    "/auth/discord": {
+      "target": "http://localhost:5000"
+    },
+    "/auth/connect/discord": {
+      "target": "http://localhost:5000"
+    },
     "/api/*": {
       "target": "http://localhost:5000"
     }

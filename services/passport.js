@@ -2,9 +2,11 @@ const passport = require('passport');
 // http://console.developers.google.com to set up a new Oauth app
 const LocalStrategy = require('passport-local').Strategy;
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const DiscordStrategy = require('passport-discord').Strategy;
 const mongoose = require('mongoose');
 const keys = require('../config/keys');
 const flash = require('connect-flash');
+const refresh = require('passport-oauth2-refresh');
 
 const User = require('../models/User');
 
@@ -19,45 +21,12 @@ passport.deserializeUser((id, done) => {
     });
 });
 
-passport.use(
-  new GoogleStrategy({
-    clientID: keys.googleClientID,
-    clientSecret: keys.googleClientSecret,
-    callbackURL: '/auth/google/callback',
-    proxy: true,
-    passReqToCallback: true
-  },
-  async (req, accessToken, refreshToken, profile, done) => {
-    if (!req.user) {
-      console.log(profile.emails[0]);
-      // once you hit this segment of the process, the token is cached
-      // and google wont need to ask for permission again until expiration
-      const existingUser = await User.findOne({ google: { id: profile.id } });
-      if (existingUser) {
-        // we already have a record with the given profileId
-        return done(null, existingUser)
-      }
-      // make a new record
-      const user = await new User({ google: { id: profile.id } }).save();
-      done(null, user);
-    } else {
-      const user = req.user;
-      user.google.id = preofile.id;
-
-      user.save(function(err) {
-        if (err)
-          throw err;
-        return done(null, user);
-      });
-    }
-  })
-);
-
 // =========================================================================
 // LOCAL SIGNUP ============================================================
 // =========================================================================
 // we are using named strategies since we have one for login and one for signup
 // by default, if there was no name, it would just be called 'local'
+
 passport.use(
   'local-signup',
   new LocalStrategy({
@@ -100,8 +69,6 @@ passport.use(
 // =========================================================================
 // LOCAL LOGIN =============================================================
 // =========================================================================
-// we are using named strategies since we have one for login and one for signup
-// by default, if there was no name, it would just be called 'local'
 
 passport.use('local-login', new LocalStrategy({
     // by default, local strategy uses username and password, we will override with email
@@ -131,3 +98,75 @@ function(req, email, password, done) { // callback with email and password from 
     });
 
 }));
+
+// =========================================================================
+// DISCORD SIGNUP ==========================================================
+// =========================================================================
+
+passport.use(new DiscordStrategy({
+    clientID: keys.discordClientId,
+    clientSecret: keys.discordClientSecret,
+    callbackURL: `/auth/discord/callback`,
+    scope: ['identify', 'email'],
+    passReqToCallback: true
+  },
+  async (req, accessToken, refreshToken, profile, done) => {
+    console.log('/req.user/', req.user);
+    console.log('/discord.profile/', profile);
+
+    const user = await User.findOne({ 'username' :  req.user.username });
+
+    if (user) {
+      user.discord.id = profile.id;
+      user.discord.username = profile.username;
+      user.discord.email = profile.email;
+      user.discord.accessToken = profile.accessToken;
+      user.discord.refreshToken = refreshToken;
+
+      await user.save();
+      console.log('/user/ saved', user);
+
+      return done(null, user);
+    }
+
+    // No user found
+    return done(null, false, { loginMessage: 'User not found.' });
+}));
+
+// =========================================================================
+// GOOGLE SIGNUP ===========================================================
+// =========================================================================
+
+passport.use(
+  new GoogleStrategy({
+    clientID: keys.googleClientID,
+    clientSecret: keys.googleClientSecret,
+    callbackURL: '/auth/google/callback',
+    proxy: true,
+    passReqToCallback: true
+  },
+  async (req, accessToken, refreshToken, profile, done) => {
+    if (!req.user) {
+      console.log(profile.emails[0]);
+      // once you hit this segment of the process, the token is cached
+      // and google wont need to ask for permission again until expiration
+      const existingUser = await User.findOne({ google: { id: profile.id } });
+      if (existingUser) {
+        // we already have a record with the given profileId
+        return done(null, existingUser)
+      }
+      // make a new record
+      const user = await new User({ google: { id: profile.id } }).save();
+      done(null, user);
+    } else {
+      const user = req.user;
+      user.google.id = preofile.id;
+
+      user.save(function(err) {
+        if (err)
+          throw err;
+        return done(null, user);
+      });
+    }
+  })
+);
