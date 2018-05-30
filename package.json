@@ -9,7 +9,7 @@
     "client": "npm run start --prefix client",
     "client-build": "npm run build --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "prod": "NODE_ENV=production node -r dotenv/config && pm2 start index.js"
+    "prod": "NODE_ENV=production pm2 start index.js"
   },
   "author": "Rob Abby",
   "license": "ISC",
