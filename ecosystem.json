@@ -7,18 +7,7 @@
         "COMMON_VARIABLE": true
       },
       "env_production" : {
-        "NODE_ENV": "production",
-        "SPACEGHOST_MONGO_URI": "",
-        "SPACEGHOST_COOKIE_KEY": "",
-        "SPACEGHOST_REDIRECT_DOMAIN": "",
-        "SPACEGHOST_DISCORD_BOT_TOKEN": "",
-        "SPACEGHOST_DISCORD_CLIENT_ID": "",
-        "SPACEGHOST_DISCORD_CLIENT_SECRET": "",
-        "SPACEGHOST_GIPHY_API_KEY": "",
-        "SPACEGHOST_PORT": "",
-        "SPACEGHOST_BUNGIE_API_KEY": "",
-        "SPACEGHOST_BUNGIE_OAUTH_URL": "",
-        "SPACEGHOST_BUNGIE_CLIENT_ID": ""
+        "NODE_ENV": "production"
       }
     }
   ],
