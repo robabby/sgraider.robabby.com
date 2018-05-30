@@ -1,6 +1,7 @@
 const keys = require('./config/keys');
 if (process.env.NODE_ENV === 'production') {
-  require('dotenv').config({ path: "./.env" });
+  const path = require('path')
+  require('dotenv').config({ path: path.join(__dirname, './.env') })
   console.log('#### KEYS ####', keys);
 }
 const express = require('express');

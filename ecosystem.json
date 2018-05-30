@@ -1,0 +1,24 @@
+{
+  "apps" : [
+    {
+      "name": "SpaceGhost",
+      "script"    : "app.js",
+      "env": {
+        "COMMON_VARIABLE": true
+      },
+      "env_production" : {
+        "NODE_ENV": "production"
+      }
+    }
+  ],
+  "deploy" : {
+    "production" : {
+      "user" : "rabby",
+      "host" : "206.189.239.191",
+      "ref"  : "origin/master",
+      "repo" : "git@github.com:robabby/spaceghostalliance.com.git",
+      "path" : "/var/www/spaceghostalliance.com",
+      "post-deploy" : "npm install; cp ~/.env .env; pm2  pm2 startOrRestart ecosystem.json --env production"
+    },
+  }
+}
