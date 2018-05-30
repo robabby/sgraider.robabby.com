@@ -9,8 +9,6 @@ const flash = require('connect-flash');
 const refresh = require('passport-oauth2-refresh');
 const User = require('../models/User');
 
-console.log(process.env);
-
 passport.serializeUser((user, done) => {
   done(null, user.id);
 });
