@@ -137,36 +137,36 @@ passport.use(new DiscordStrategy({
 // GOOGLE SIGNUP ===========================================================
 // =========================================================================
 
-passport.use(
-  new GoogleStrategy({
-    clientID: keys.googleClientID,
-    clientSecret: keys.googleClientSecret,
-    callbackURL: '/auth/google/callback',
-    proxy: true,
-    passReqToCallback: true
-  },
-  async (req, accessToken, refreshToken, profile, done) => {
-    if (!req.user) {
-      console.log(profile.emails[0]);
-      // once you hit this segment of the process, the token is cached
-      // and google wont need to ask for permission again until expiration
-      const existingUser = await User.findOne({ google: { id: profile.id } });
-      if (existingUser) {
-        // we already have a record with the given profileId
-        return done(null, existingUser)
-      }
-      // make a new record
-      const user = await new User({ google: { id: profile.id } }).save();
-      done(null, user);
-    } else {
-      const user = req.user;
-      user.google.id = preofile.id;
-
-      user.save(function(err) {
-        if (err)
-          throw err;
-        return done(null, user);
-      });
-    }
-  })
-);
+// passport.use(
+//   new GoogleStrategy({
+//     clientID: keys.googleClientID,
+//     clientSecret: keys.googleClientSecret,
+//     callbackURL: '/auth/google/callback',
+//     proxy: true,
+//     passReqToCallback: true
+//   },
+//   async (req, accessToken, refreshToken, profile, done) => {
+//     if (!req.user) {
+//       console.log(profile.emails[0]);
+//       // once you hit this segment of the process, the token is cached
+//       // and google wont need to ask for permission again until expiration
+//       const existingUser = await User.findOne({ google: { id: profile.id } });
+//       if (existingUser) {
+//         // we already have a record with the given profileId
+//         return done(null, existingUser)
+//       }
+//       // make a new record
+//       const user = await new User({ google: { id: profile.id } }).save();
+//       done(null, user);
+//     } else {
+//       const user = req.user;
+//       user.google.id = preofile.id;
+//
+//       user.save(function(err) {
+//         if (err)
+//           throw err;
+//         return done(null, user);
+//       });
+//     }
+//   })
+// );
