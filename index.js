@@ -42,7 +42,7 @@ require('./routes/authRoutes')(app);
 
 if (process.env.NODE_ENV === 'production') {
   // Serve up production assets
-  app.use(express.static('client/build'));
+  app.use(express.static('client/public'));
 
   // Serve index.html if unrecognized route
   const path = require('path');
