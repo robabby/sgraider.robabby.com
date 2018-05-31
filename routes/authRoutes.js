@@ -91,7 +91,9 @@ module.exports = app => {
   app.get('/auth/connect/bungie/callback', async (req, res) => {
       // Successful authentication, redirect home.
       console.log("########## res ##########", res);
+      console.log("########## res stuff ##########", res.query, res.url);
       console.log("########## req ##########", req);
+      console.log("########## req stuff ##########", req.query, req.url);
       res.redirect('/settings');
       request.post(`https://www.bungie.net/Platform/App/OAuth/Token/client_id=${keys.bungieClientId}&grant_type=authorization_code&code=${req.query.code}`, function (error, response, body) {
         // console.log('error:', error); // Print the error if one occurred
