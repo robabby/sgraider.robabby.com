@@ -84,19 +84,20 @@ module.exports = app => {
   // app.get('/auth/connect/bungie', passport.authenticate('bungie-oauth2'), (req, res) => {
   //   console.log(res);
   // });
-  app.get('/auth/connect/bungie', async (req, res) => {
+  app.get('/auth/connect/bungie', (req, res) => {
     let authorizationURL = `https://www.bungie.net/en/OAuth/Authorize?client_id=${keys.bungieClientId}&response_type=code`;
-    await request(authorizationURL, function (error, response, body) {
+
+    res.redirect(authorizationURL);
+    request(authorizationURL, function (error, response, body) {
       console.log('error:', error); // Print the error if one occurred
       console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
       console.log('body:', body); // Print the HTML for the Google homepage.
     });
   });
-  app.get('/auth/connect/bungie/callback',
-    passport.authorize('bungie-oauth2', { failureRedirect: '/settings' }),
-    (req, res) => {
+  app.get('/auth/connect/bungie/callback', async (req, res) => {
       // Successful authentication, redirect home.
-      res.redirect('/settings');
+      console.log(res.body);
+      // res.redirect('/settings');
     }
   );
 
