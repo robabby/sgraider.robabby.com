@@ -93,10 +93,10 @@ module.exports = app => {
       console.log("########## res ##########", res);
       console.log("########## req ##########", req);
       res.redirect('/settings');
-      // request.post(`https://www.bungie.net/Platform/App/OAuth/Token/client_id=${keys.bungieClientId}&grant_type=authorization_code&code=${req.query.code}`, function (error, response, body) {
+      request.post(`https://www.bungie.net/Platform/App/OAuth/Token/client_id=${keys.bungieClientId}&grant_type=authorization_code&code=${req.query.code}`, function (error, response, body) {
         // console.log('error:', error); // Print the error if one occurred
-        // console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-        console.log('body:', body); // Print the HTML for the Google homepage.
+        console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+        // console.log('body:', body); // Print the HTML for the Google homepage.
       });
     }
   );
