@@ -98,13 +98,13 @@ module.exports = app => {
         console.log('error:', error); // Print the error if one occurred
         console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
         console.log('body:', body); // Print the HTML for the Google homepage.
-
+        const userData = JSON.parse(body);
         const userRecord = await User.findOne({ 'username' :  user.username });
 
         if (userRecord) {
-          userRecord.bungie.membershipId = body["membership_id"];
-          userRecord.bungie.accessToken = body["access_token"];
-          userRecord.bungie.refreshToken = body["refresh_token"];
+          userRecord.bungie.membershipId = body.membership_id;
+          userRecord.bungie.accessToken = body.access_token;
+          userRecord.bungie.refreshToken = body.refresh_token;
 
           await userRecord.save();
           console.log('/userRecord/ saved', userRecord);
