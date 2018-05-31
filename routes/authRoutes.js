@@ -102,12 +102,12 @@ module.exports = app => {
         const userRecord = await User.findOne({ 'username' :  user.username });
 
         if (userRecord) {
-          userRecord.bungie.membershipId = profile.membershipId;
-          userRecord.bungie.accessToken = profile.accessToken;
-          userRecord.bungie.refreshToken = refreshToken;
+          userRecord.bungie.membershipId = body.membership_id;
+          userRecord.bungie.accessToken = body.access_token;
+          userRecord.bungie.refreshToken = body.refresh_token;
 
           await userRecord.save();
-          console.log('/user/ saved', userRecord);
+          console.log('/userRecord/ saved', userRecord);
 
           return done(null, userRecord);
         }
