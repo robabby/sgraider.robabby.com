@@ -80,7 +80,7 @@ module.exports = app => {
     }
   );
 
-  app.get('/auth/connect/bungie', passport.authorize('bungie-oauth2'), { failureRedirect: '/settings' });
+  app.get('/auth/connect/bungie', passport.authorize('bungie-oauth2', { failureRedirect: '/settings' }));
   app.get('/auth/connect/bungie/callback',
     passport.authorize('bungie-oauth2', { failureRedirect: '/settings' }),
     (req, res) => {
