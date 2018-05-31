@@ -88,16 +88,16 @@ module.exports = app => {
     let authorizationURL = `https://www.bungie.net/en/OAuth/Authorize?client_id=${keys.bungieClientId}&response_type=code`;
 
     res.redirect(authorizationURL);
-    request(authorizationURL, function (error, response, body) {
-      console.log('error:', error); // Print the error if one occurred
-      console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-      console.log('body:', body); // Print the HTML for the Google homepage.
-    });
+    // request(authorizationURL, function (error, response, body) {
+    //   console.log('error:', error); // Print the error if one occurred
+    //   console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+    //   console.log('body:', body); // Print the HTML for the Google homepage.
+    // });
   });
   app.get('/auth/connect/bungie/callback', async (req, res) => {
       // Successful authentication, redirect home.
-      console.log(res.body);
-      // res.redirect('/settings');
+      console.log(res);
+      res.redirect('/settings');
     }
   );
 
