@@ -1,5 +1,6 @@
 const passport = require('passport');
 const request = require('request');
+const qs = require('querystring');
 const keys = require('../config/keys');
 
 module.exports = app => {
@@ -51,7 +52,7 @@ module.exports = app => {
 
   // Get the current user
   app.get('/api/current_user', (req, res) => {
-    console.log('/api/current_user', req.user);
+    // console.log('/api/current_user', req.user);
     res.send(req.user);
   });
 
@@ -61,17 +62,6 @@ module.exports = app => {
       scope: ['profile', 'email']
     })
   );
-
-  // // send to google to do the authentication
-  // app.get('/connect/google', passport.authorize('google', { scope : ['profile', 'email'] }));
-  //
-  // // the callback after google has authorized the user
-  // app.get('/connect/google/callback',
-  //   passport.authorize('google'),
-  //   (req, res) => {
-  //     res.redirect('/dashboard');
-  //   }
-  // );
 
   app.get(
     '/auth/google/callback',
@@ -90,14 +80,18 @@ module.exports = app => {
   });
   app.get('/auth/connect/bungie/callback', async (req, res) => {
       // Successful authentication, redirect home.
-      console.log("########## res ##########", res);
-      console.log("########## res stuff ##########", res.query, res.url);
       console.log("########## req ##########", req);
       console.log("########## req stuff ##########", req.query, req.url);
+      let url = 'https://www.bungie.net/Platform/App/OAuth/Token/';
+      let data = {
+        client_id: keys.bungieClientId,
+        grant_type: 'authorization_code',
+        code: req.query.code
+      }
       res.redirect('/settings');
-      request.post(`https://www.bungie.net/Platform/App/OAuth/Token/client_id=${keys.bungieClientId}&grant_type=authorization_code&code=${req.query.code}`, function (error, response, body) {
+      request.post({ url, form: data }, function (error, response, body) {
         // console.log('error:', error); // Print the error if one occurred
-        console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+        console.log('response:', response && response.statusCode); // Print the response status code if a response was received
         // console.log('body:', body); // Print the HTML for the Google homepage.
       });
     }
