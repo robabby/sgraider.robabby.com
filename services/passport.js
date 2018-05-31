@@ -140,7 +140,7 @@ passport.use(new DiscordStrategy({
 passport.use(new BungieOAuth2Strategy({
     clientID: keys.bungieClientId,
     callbackURL: `${keys.redirectDomain}auth/connect/bungie/callback`,
-    authorizationURL: `https://www.bungie.net/en/OAuth/Authorize?client_id=${keys.bungieClientId}&response_type=code`
+    authorizationURL: `https://www.bungie.net/en/OAuth/Authorize?client_id=${keys.bungieClientId}&response_type=code`,
     passReqToCallback: true
   },
   async (req, accessToken, refreshToken, profile, done) => {
