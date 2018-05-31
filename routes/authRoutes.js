@@ -1,6 +1,8 @@
 const passport = require('passport');
 const request = require('request');
 const qs = require('querystring');
+const mongoose = require('mongoose');
+const User = require('../models/User');
 const keys = require('../config/keys');
 
 module.exports = app => {
@@ -81,7 +83,7 @@ module.exports = app => {
   app.get('/auth/connect/bungie/callback', async (req, res) => {
       // Successful authentication, redirect home.
       console.log("########## req ##########", req);
-      console.log("########## req stuff ##########", req.query, req.url);
+      console.log("########## req stuff ##########", req.query, req.url, req.user);
       let url = 'https://www.bungie.net/Platform/App/OAuth/Token/';
       let data = {
         client_id: keys.bungieClientId,
@@ -91,7 +93,7 @@ module.exports = app => {
       }
       request.post({ url, form: data }, function (error, response, body) {
         console.log('error:', error); // Print the error if one occurred
-        console.log('response:', response); // Print the response status code if a response was received
+        console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
         console.log('body:', body); // Print the HTML for the Google homepage.
       });
       res.redirect('/settings');
