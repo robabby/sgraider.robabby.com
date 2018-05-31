@@ -85,6 +85,7 @@ module.exports = app => {
       let url = 'https://www.bungie.net/Platform/App/OAuth/Token/';
       let data = {
         client_id: keys.bungieClientId,
+        client_secret: keys.bungieClientSecret,
         grant_type: 'authorization_code',
         code: req.query.code
       }

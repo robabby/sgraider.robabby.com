@@ -10,5 +10,6 @@ module.exports = {
   giphyApiKey: process.env.SPACEGHOST_GIPHY_API_KEY,
   bungieApiKey: process.env.SPACEGHOST_BUNGIE_API_KEY,
   bungieOAuthUrl: process.env.SPACEGHOST_BUNGIE_OAUTH_URL,
-  bungieClientId: process.env.SPACEGHOST_BUNGIE_CLIENT_ID
+  bungieClientId: process.env.SPACEGHOST_BUNGIE_CLIENT_ID,
+  bungieClientSecret: process.env.SPACEGHOST_BUNGIE_CLIENT_SECRET
 }
