@@ -80,10 +80,12 @@ module.exports = app => {
     let authorizationURL = `https://www.bungie.net/en/OAuth/Authorize?client_id=${keys.bungieClientId}&response_type=code`;
     res.redirect(authorizationURL);
   });
-  app.get('/auth/connect/bungie/callback', async (req, res) => {
-      // Successful authentication, redirect home.
+  app.get('/auth/connect/bungie/callback', async (req, res, done) => {
+      let { user } = req;
+
       console.log("########## req ##########", req);
       console.log("########## req stuff ##########", req.query, req.url, req.user);
+
       let url = 'https://www.bungie.net/Platform/App/OAuth/Token/';
       let data = {
         client_id: keys.bungieClientId,
@@ -91,10 +93,27 @@ module.exports = app => {
         grant_type: 'authorization_code',
         code: req.query.code
       }
-      request.post({ url, form: data }, function (error, response, body) {
+
+      request.post({ url, form: data }, async (error, response, body) => {
         console.log('error:', error); // Print the error if one occurred
         console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
         console.log('body:', body); // Print the HTML for the Google homepage.
+
+        const userRecord = await User.findOne({ 'username' :  user.username });
+
+        if (userRecord) {
+          userRecord.bungie.membershipId = profile.membershipId;
+          userRecord.bungie.accessToken = profile.accessToken;
+          userRecord.bungie.refreshToken = refreshToken;
+
+          await userRecord.save();
+          console.log('/user/ saved', userRecord);
+
+          return done(null, userRecord);
+        }
+
+        // No user found
+        return done(null, false, { loginMessage: 'User not found.' });
       });
       res.redirect('/settings');
     }

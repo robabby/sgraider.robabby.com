@@ -162,10 +162,6 @@ passport.use(new BungieOAuth2Strategy({
 
     // No user found
     return done(null, false, { loginMessage: 'User not found.' });
-
-    // User.findOrCreate({ bungie: { membershipId: profile.membershipId } }, function (err, user) {
-    //   return done(err, user);
-    // });
   }
 ));
 
