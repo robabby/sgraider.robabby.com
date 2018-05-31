@@ -88,12 +88,12 @@ module.exports = app => {
         grant_type: 'authorization_code',
         code: req.query.code
       }
-      res.redirect('/settings');
       request.post({ url, form: data }, function (error, response, body) {
-        // console.log('error:', error); // Print the error if one occurred
-        console.log('response:', response && response.statusCode); // Print the response status code if a response was received
-        // console.log('body:', body); // Print the HTML for the Google homepage.
+        console.log('error:', error); // Print the error if one occurred
+        console.log('response:', response); // Print the response status code if a response was received
+        console.log('body:', body); // Print the HTML for the Google homepage.
       });
+      res.redirect('/settings');
     }
   );
 
