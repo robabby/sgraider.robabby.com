@@ -6,7 +6,7 @@ export default (props) => {
       <h2>Settings</h2>
       <div style={{marginTop: 15}}>
         <a
-          href="/auth/connect/discord"
+          href="/auth/discord"
           className={'login-submit'}
         >
           Connect with Discord

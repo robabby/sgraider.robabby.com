@@ -111,6 +111,7 @@ passport.use(new DiscordStrategy({
     passReqToCallback: true
   },
   async (req, accessToken, refreshToken, profile, done) => {
+    console.log('### Discord Strategy Init ###');
     console.log('/req.user/', req.user);
     console.log('/discord.profile/', profile);
 

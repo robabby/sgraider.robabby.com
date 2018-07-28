@@ -18,7 +18,6 @@ require('./services/discord');
 mongoose.connect(keys.mongoURI, (err, db) => {
   if (err) {
       console.log('err', err);
-
   }
   else { console.log('Database Connected') }
 });
@@ -38,7 +37,6 @@ app.use(passport.session());
 app.use(flash());
 
 require('./routes/authRoutes')(app);
-// require('./routes/stackRoutes')(app);
 
 if (process.env.NODE_ENV === 'production') {
   // Serve up production assets

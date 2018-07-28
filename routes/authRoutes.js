@@ -115,18 +115,18 @@ module.exports = app => {
   );
 
   // Discord Signup
-  app.get('/auth/discord', passport.authenticate('discord'));
+  app.get('/auth/discord', passport.authorize('discord'));
   app.get('/auth/discord/callback',
-    passport.authenticate('discord'),
+    passport.authorize('discord'),
     (req, res) => {
       res.redirect('/dashboard');
   });
 
   // Connect discord
-  app.get('/auth/connect/discord', passport.authorize('discord'));
-  app.get('/auth/connect/discord/callback',
-    passport.authorize('discord'),
-    (req, res) => {
-      res.redirect('/settings');
-  });
+  // app.get('/auth/connect/discord', passport.authenticate('discord'));
+  // app.get('/auth/connect/discord/callback',
+  //   passport.authenticate('discord'),
+  //   (req, res) => {
+  //     res.redirect('/settings');
+  // });
 };
